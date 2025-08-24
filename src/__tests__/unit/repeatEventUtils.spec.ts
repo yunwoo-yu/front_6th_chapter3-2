@@ -1,7 +1,36 @@
 import { describe, it } from 'vitest';
 
+import { EventForm } from '../../types';
+import { generateRepeatEvents } from '../../utils/repeatEventUtils';
+
 describe('generateRepeatEvents', () => {
-  it('repeat type이 daily면 매일 반복된 이벤트를 반환한다', () => {});
+  const baseEvent: EventForm = {
+    title: '기존 회의',
+    date: '2025-10-15',
+    startTime: '09:00',
+    endTime: '10:00',
+    description: '기존 팀 미팅',
+    location: '회의실 B',
+    category: '업무',
+    repeat: { type: 'none', interval: 0 },
+    notificationTime: 10,
+  };
+
+  it('repeat type이 daily면 매일 반복된 이벤트를 반환한다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2025-10-26',
+      repeat: { type: 'daily', interval: 1 },
+    };
+    const events = generateRepeatEvents(event);
+
+    expect(events).toHaveLength(5);
+    expect(events[0].date).toBe('2025-10-26');
+    expect(events[1].date).toBe('2025-10-27');
+    expect(events[2].date).toBe('2025-10-28');
+    expect(events[3].date).toBe('2025-10-29');
+    expect(events[4].date).toBe('2025-10-30');
+  });
 
   it('repeat type이 weekly면 매주 반복된 이벤트를 반환한다', () => {});
 
