@@ -1,30 +1,22 @@
 import { EventForm } from '../types';
 
 export const generateRepeatEvents = (event: EventForm) => {
-  const events: EventForm[] = [
-    {
-      ...event,
-      date: '2025-10-26',
-    },
-    {
-      ...event,
-      date: '2025-10-27',
-    },
-    {
-      ...event,
-      date: '2025-10-28',
-    },
+  const events: EventForm[] = [];
 
-    {
-      ...event,
-      date: '2025-10-29',
-    },
+  const currentDate = new Date(event.date);
+  const endDate = new Date(event.repeat.endDate || '2025-10-30');
 
-    {
+  while (currentDate <= endDate) {
+    events.push({
       ...event,
-      date: '2025-10-30',
-    },
-  ];
+      date: currentDate.toISOString().split('T')[0],
+    });
+
+    switch (event.repeat.type) {
+      case 'daily':
+        currentDate.setDate(currentDate.getDate());
+    }
+  }
 
   return events;
 };
