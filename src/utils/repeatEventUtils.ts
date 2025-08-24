@@ -14,13 +14,17 @@ export const generateRepeatEvents = (event: EventForm) => {
 
     switch (event.repeat.type) {
       case 'daily':
-        currentDate.setDate(currentDate.getDate());
+        currentDate.setDate(currentDate.getDate() + 1);
         break;
       case 'weekly':
         currentDate.setDate(currentDate.getDate() + 7);
         break;
       case 'monthly':
-        currentDate.setMonth(currentDate.getMonth() + 1);
+        do {
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          // 31일로 강제 설정
+          currentDate.setDate(31);
+        } while (currentDate.getDate() !== 31);
         break;
       case 'yearly':
         currentDate.setFullYear(currentDate.getFullYear() + 1);
