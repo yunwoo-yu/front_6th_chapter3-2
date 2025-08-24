@@ -19,6 +19,8 @@ export const generateRepeatEvents = (event: EventForm) => {
       case 'weekly':
         currentDate.setDate(currentDate.getDate() + 7);
         break;
+      case 'monthly':
+        currentDate.setMonth(currentDate.getMonth() + 1);
     }
   }
 
