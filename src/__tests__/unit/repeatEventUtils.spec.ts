@@ -32,7 +32,22 @@ describe('generateRepeatEvents', () => {
     expect(events[4].date).toBe('2025-10-30');
   });
 
-  it('repeat type이 weekly면 매주 반복된 이벤트를 반환한다', () => {});
+  it('repeat type이 weekly면 매주 반복된 이벤트를 반환한다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2025-10-01',
+      repeat: { type: 'weekly', interval: 1 },
+    };
+
+    const events = generateRepeatEvents(event);
+
+    expect(events).toHaveLength(5);
+    expect(events[0].date).toBe('2025-10-01');
+    expect(events[1].date).toBe('2025-10-08');
+    expect(events[2].date).toBe('2025-10-15');
+    expect(events[3].date).toBe('2025-10-22');
+    expect(events[4].date).toBe('2025-10-29');
+  });
 
   it('repeat type이 monthly면 매월 반복된 이벤트를 반환한다', () => {});
 
