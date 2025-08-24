@@ -79,7 +79,20 @@ describe('generateRepeatEvents', () => {
     expect(events[2].date).toBe('2025-01-01');
   });
 
-  it('매월 31일 반복 시 31일이 없는 달은 스킵한다', () => {});
+  it('매월 31일 반복 시 31일이 없는 달은 스킵한다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2025-05-31',
+      repeat: { type: 'monthly', interval: 1 },
+    };
+
+    const events = generateRepeatEvents(event);
+
+    expect(events).toHaveLength(3);
+    expect(events[0].date).toBe('2025-05-31');
+    expect(events[1].date).toBe('2025-07-31');
+    expect(events[2].date).toBe('2025-08-31');
+  });
 
   it('매년 2월 29일 반복 시 평년은 스킵하고 윤년에만 생성한다', () => {});
 
