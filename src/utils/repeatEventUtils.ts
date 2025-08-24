@@ -15,6 +15,10 @@ export const generateRepeatEvents = (event: EventForm) => {
     switch (event.repeat.type) {
       case 'daily':
         currentDate.setDate(currentDate.getDate());
+        break;
+      case 'weekly':
+        currentDate.setDate(currentDate.getDate() + 7);
+        break;
     }
   }
 
