@@ -64,7 +64,20 @@ describe('generateRepeatEvents', () => {
     expect(events[2].date).toBe('2025-10-01');
   });
 
-  it('repeat type이 yearly면 매년 반복된 이벤트를 반환한다', () => {});
+  it('repeat type이 yearly면 매년 반복된 이벤트를 반환한다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2023-01-01',
+      repeat: { type: 'yearly', interval: 1 },
+    };
+
+    const events = generateRepeatEvents(event);
+
+    expect(events).toHaveLength(3);
+    expect(events[0].date).toBe('2023-01-01');
+    expect(events[1].date).toBe('2024-01-01');
+    expect(events[2].date).toBe('2025-01-01');
+  });
 
   it('매월 31일 반복 시 31일이 없는 달은 스킵한다', () => {});
 
