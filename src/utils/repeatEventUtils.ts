@@ -21,6 +21,10 @@ export const generateRepeatEvents = (event: EventForm) => {
         break;
       case 'monthly':
         currentDate.setMonth(currentDate.getMonth() + 1);
+        break;
+      case 'yearly':
+        currentDate.setFullYear(currentDate.getFullYear() + 1);
+        break;
     }
   }
 
