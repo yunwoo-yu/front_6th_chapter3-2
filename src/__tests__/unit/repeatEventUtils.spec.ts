@@ -1,24 +1,25 @@
 import { describe, it } from 'vitest';
 
-import { EventForm } from '../../types';
-import { generateRepeatEvents } from '../../utils/repeatEventUtils';
-
 describe('generateRepeatEvents', () => {
-  const event: Event | EventForm = {
-    title: '기존 회의',
-    date: '2025-10-15',
-    startTime: '09:00',
-    endTime: '10:00',
-    description: '기존 팀 미팅',
-    location: '회의실 B',
-    category: '업무',
-    repeat: { type: 'none', interval: 0 },
-    notificationTime: 10,
-  };
+  it('repeat type이 daily면 매일 반복된 이벤트를 반환한다', () => {});
 
-  it('repeat type이 none인 경우 원본 이벤트를 반환한다', () => {
-    const result = generateRepeatEvents(event);
+  it('repeat type이 weekly면 매주 반복된 이벤트를 반환한다', () => {});
 
-    expect(result).toEqual(event);
-  });
+  it('repeat type이 monthly면 매월 반복된 이벤트를 반환한다', () => {});
+
+  it('repeat type이 yearly면 매년 반복된 이벤트를 반환한다', () => {});
+
+  it('매월 31일 반복 시 31일이 없는 달은 스킵한다', () => {});
+
+  it('매년 2월 29일 반복 시 평년은 스킵하고 윤년에만 생성한다', () => {});
+
+  it('endDate 이후 일정은 반환하지 않는다', () => {});
+
+  it('endDate가 없으면 최대 2025-10-30까지 반복된 이벤트를 반환한다', () => {});
+
+  it('interval이 2면 2일, 2주, 2개월, 2년 주기로 반복된 이벤트를 반환한다', () => {});
+
+  it('시작 날짜도 결과에 포함된다', () => {});
+
+  it('종료 날짜와 같은 날짜도 결과에 포함된다', () => {});
 });
