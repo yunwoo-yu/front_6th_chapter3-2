@@ -94,7 +94,21 @@ describe('generateRepeatEvents', () => {
     expect(events[2].date).toBe('2025-08-31');
   });
 
-  it('매년 2월 29일 반복 시 평년은 스킵하고 윤년에만 생성한다', () => {});
+  it('매년 2월 29일 반복 시 평년은 스킵하고 윤년에만 생성한다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2020-02-29',
+      repeat: { type: 'yearly', interval: 1 },
+    };
+
+    const events = generateRepeatEvents(event);
+
+    console.log(events);
+
+    expect(events).toHaveLength(2);
+    expect(events[0].date).toBe('2020-02-29');
+    expect(events[1].date).toBe('2024-02-29');
+  });
 
   it('endDate 이후 일정은 반환하지 않는다', () => {});
 
