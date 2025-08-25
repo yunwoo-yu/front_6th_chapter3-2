@@ -1,15 +1,23 @@
 import { EventForm } from '../types';
 
+export const formatDateString = (date: Date) => {
+  return date.toISOString().split('T')[0];
+};
+
+export const getRepeatEndDate = (endDate?: string) => {
+  return new Date(endDate || '2025-10-30');
+};
+
 export const generateRepeatEvents = (event: EventForm) => {
   const events: EventForm[] = [];
   const startDate = new Date(event.date);
-  const endDate = new Date(event.repeat.endDate || '2025-10-30');
+  const endDate = getRepeatEndDate(event.repeat.endDate);
   let currentDate = new Date(startDate);
 
   while (currentDate <= endDate) {
     events.push({
       ...event,
-      date: currentDate.toISOString().split('T')[0],
+      date: formatDateString(currentDate),
     });
 
     switch (event.repeat.type) {

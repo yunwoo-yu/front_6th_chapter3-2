@@ -1,7 +1,29 @@
 import { describe, it } from 'vitest';
 
 import { EventForm } from '../../types';
-import { generateRepeatEvents } from '../../utils/repeatEventUtils';
+import {
+  formatDateString,
+  generateRepeatEvents,
+  getRepeatEndDate,
+} from '../../utils/repeatEventUtils';
+
+describe('formatDateString', () => {
+  it('date를 yyyy-mm-dd 형식의 문자열로 반환한다', () => {
+    const date = new Date('2025-10-26');
+
+    expect(formatDateString(date)).toBe('2025-10-26');
+  });
+});
+
+describe('getRepeatEndDate', () => {
+  it('endDate가 없으면 2025-10-30을 반환한다', () => {
+    expect(getRepeatEndDate()).toEqual(new Date('2025-10-30'));
+  });
+
+  it('endDate가 있으면 해당 날짜를 반환한다', () => {
+    expect(getRepeatEndDate('2025-10-26')).toEqual(new Date('2025-10-26'));
+  });
+});
 
 describe('generateRepeatEvents', () => {
   const baseEvent: EventForm = {
