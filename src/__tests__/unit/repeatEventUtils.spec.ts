@@ -140,7 +140,56 @@ describe('generateRepeatEvents', () => {
     expect(events[4].date).toBe('2025-10-30');
   });
 
-  it('interval이 2면 2일, 2주, 2개월, 2년 주기로 반복된 이벤트를 반환한다', () => {});
+  it('interval이 2면 2일, 2주, 2개월, 2년 주기로 반복된 이벤트를 반환한다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2025-10-26',
+      repeat: { type: 'daily', interval: 2 },
+    };
+    const events = generateRepeatEvents(event);
+
+    expect(events).toHaveLength(3);
+    expect(events[0].date).toBe('2025-10-26');
+    expect(events[1].date).toBe('2025-10-28');
+    expect(events[2].date).toBe('2025-10-30');
+
+    const event2: EventForm = {
+      ...baseEvent,
+      date: '2025-10-01',
+      repeat: { type: 'weekly', interval: 2 },
+    };
+    const events2 = generateRepeatEvents(event2);
+
+    expect(events2).toHaveLength(5);
+    expect(events2[0].date).toBe('2025-10-01');
+    expect(events2[1].date).toBe('2025-10-08');
+    expect(events2[2].date).toBe('2025-10-15');
+    expect(events2[3].date).toBe('2025-10-22');
+    expect(events2[4].date).toBe('2025-10-29');
+
+    const event3: EventForm = {
+      ...baseEvent,
+      date: '2025-06-01',
+      repeat: { type: 'monthly', interval: 2 },
+    };
+    const events3 = generateRepeatEvents(event3);
+
+    expect(events3).toHaveLength(3);
+    expect(events3[0].date).toBe('2025-06-01');
+    expect(events3[1].date).toBe('2025-08-01');
+    expect(events3[2].date).toBe('2025-10-01');
+
+    const event4: EventForm = {
+      ...baseEvent,
+      date: '2023-01-01',
+      repeat: { type: 'yearly', interval: 2 },
+    };
+    const events4 = generateRepeatEvents(event4);
+
+    expect(events4).toHaveLength(2);
+    expect(events4[0].date).toBe('2023-01-01');
+    expect(events4[1].date).toBe('2025-01-01');
+  });
 
   it('시작 날짜도 결과에 포함된다', () => {});
 
