@@ -29,7 +29,7 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { useCalendarView } from './hooks/useCalendarView.ts';
 import { useEventForm } from './hooks/useEventForm.ts';
 import { useEventOperations } from './hooks/useEventOperations.ts';
@@ -271,6 +271,8 @@ function App() {
                             )}
                             {getEventsForDay(filteredEvents, day).map((event) => {
                               const isNotified = notifiedEvents.includes(event.id);
+                              const isRepeating = event.repeat.type !== 'none';
+
                               return (
                                 <Box
                                   key={event.id}
@@ -288,6 +290,7 @@ function App() {
                                 >
                                   <Stack direction="row" spacing={1} alignItems="center">
                                     {isNotified && <Notifications fontSize="small" />}
+                                    {isRepeating && <EventRepeatIcon fontSize="small" />}
                                     <Typography
                                       variant="caption"
                                       noWrap
