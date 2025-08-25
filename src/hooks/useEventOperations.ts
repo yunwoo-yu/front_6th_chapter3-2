@@ -33,8 +33,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
             ...eventData,
             repeat: {
               type: 'none',
-              interval: 1,
-              endDate: '',
+              interval: 0,
             },
           }),
         });
