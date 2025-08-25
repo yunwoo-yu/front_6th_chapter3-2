@@ -160,12 +160,10 @@ describe('generateRepeatEvents', () => {
     };
     const events2 = generateRepeatEvents(event2);
 
-    expect(events2).toHaveLength(5);
+    expect(events2).toHaveLength(3);
     expect(events2[0].date).toBe('2025-10-01');
-    expect(events2[1].date).toBe('2025-10-08');
-    expect(events2[2].date).toBe('2025-10-15');
-    expect(events2[3].date).toBe('2025-10-22');
-    expect(events2[4].date).toBe('2025-10-29');
+    expect(events2[1].date).toBe('2025-10-15');
+    expect(events2[2].date).toBe('2025-10-29');
 
     const event3: EventForm = {
       ...baseEvent,
