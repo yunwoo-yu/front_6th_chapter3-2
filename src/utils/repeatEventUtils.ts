@@ -15,13 +15,13 @@ export const generateRepeatEvents = (event: EventForm) => {
 
     switch (event.repeat.type) {
       case 'daily':
-        currentDate.setDate(currentDate.getDate() + 1);
+        currentDate.setDate(currentDate.getDate() + event.repeat.interval);
         break;
       case 'weekly':
-        currentDate.setDate(currentDate.getDate() + 7);
+        currentDate.setDate(currentDate.getDate() + event.repeat.interval * 7);
         break;
       case 'monthly':
-        currentDate.setMonth(currentDate.getMonth() + 1);
+        currentDate.setMonth(currentDate.getMonth() + event.repeat.interval);
 
         if (currentDate.getDate() !== startDate.getDate()) {
           currentDate = new Date(
@@ -34,10 +34,10 @@ export const generateRepeatEvents = (event: EventForm) => {
 
       case 'yearly':
         {
-          currentDate.setFullYear(currentDate.getFullYear() + 1);
+          currentDate.setFullYear(currentDate.getFullYear() + event.repeat.interval);
 
           while (currentDate.getDate() !== startDate.getDate()) {
-            currentDate.setFullYear(currentDate.getFullYear() + 1);
+            currentDate.setFullYear(currentDate.getFullYear() + event.repeat.interval);
             currentDate.setMonth(startDate.getMonth(), startDate.getDate());
           }
         }
