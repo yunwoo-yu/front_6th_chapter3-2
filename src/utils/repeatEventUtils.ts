@@ -2,7 +2,6 @@ import { EventForm } from '../types';
 
 export const generateRepeatEvents = (event: EventForm) => {
   const events: EventForm[] = [];
-
   const startDate = new Date(event.date);
   const endDate = new Date(event.repeat.endDate || '2025-10-30');
   let currentDate = new Date(startDate);

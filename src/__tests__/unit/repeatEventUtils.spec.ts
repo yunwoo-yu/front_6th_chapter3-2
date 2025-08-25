@@ -103,8 +103,6 @@ describe('generateRepeatEvents', () => {
 
     const events = generateRepeatEvents(event);
 
-    console.log(events);
-
     expect(events).toHaveLength(2);
     expect(events[0].date).toBe('2020-02-29');
     expect(events[1].date).toBe('2024-02-29');
