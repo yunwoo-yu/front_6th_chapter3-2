@@ -110,7 +110,19 @@ describe('generateRepeatEvents', () => {
     expect(events[1].date).toBe('2024-02-29');
   });
 
-  it('endDate 이후 일정은 반환하지 않는다', () => {});
+  it('endDate 이후 일정은 반환하지 않는다', () => {
+    const event: EventForm = {
+      ...baseEvent,
+      date: '2025-10-26',
+      repeat: { type: 'daily', interval: 1, endDate: '2025-10-28' },
+    };
+    const events = generateRepeatEvents(event);
+
+    expect(events).toHaveLength(3);
+    expect(events[0].date).toBe('2025-10-26');
+    expect(events[1].date).toBe('2025-10-27');
+    expect(events[2].date).toBe('2025-10-28');
+  });
 
   it('endDate가 없으면 최대 2025-10-30까지 반복된 이벤트를 반환한다', () => {});
 
