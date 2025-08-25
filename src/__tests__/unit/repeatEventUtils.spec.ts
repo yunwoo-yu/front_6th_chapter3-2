@@ -188,8 +188,4 @@ describe('generateRepeatEvents', () => {
     expect(events4[0].date).toBe('2023-01-01');
     expect(events4[1].date).toBe('2025-01-01');
   });
-
-  it('시작 날짜도 결과에 포함된다', () => {});
-
-  it('종료 날짜와 같은 날짜도 결과에 포함된다', () => {});
 });
