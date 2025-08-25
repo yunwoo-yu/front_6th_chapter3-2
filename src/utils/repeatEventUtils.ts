@@ -34,21 +34,12 @@ export const generateRepeatEvents = (event: EventForm) => {
 
       case 'yearly':
         {
-          const originalMonth = startDate.getMonth();
-          const originalDayOfYear = startDate.getDate();
+          currentDate.setFullYear(currentDate.getFullYear() + 1);
 
-          do {
+          while (currentDate.getDate() !== startDate.getDate()) {
             currentDate.setFullYear(currentDate.getFullYear() + 1);
-          } while (
-            originalMonth === 1 &&
-            originalDayOfYear === 29 &&
-            !(
-              (currentDate.getFullYear() % 4 === 0 && currentDate.getFullYear() % 100 !== 0) ||
-              currentDate.getFullYear() % 400 === 0
-            )
-          );
-
-          currentDate.setMonth(originalMonth, originalDayOfYear);
+            currentDate.setMonth(startDate.getMonth(), startDate.getDate());
+          }
         }
         break;
     }
