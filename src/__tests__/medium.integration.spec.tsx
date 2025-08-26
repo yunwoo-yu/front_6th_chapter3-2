@@ -324,19 +324,114 @@ describe('일정 충돌', () => {
   });
 });
 
-it('notificationTime을 10으로 하면 지정 시간 10분 전 알람 텍스트가 노출된다', async () => {
-  vi.setSystemTime(new Date('2025-10-15 08:49:59'));
+describe('알림 기능', () => {
+  it('일정 생성 후 알림 시간 10분 전에 정확히 알림이 표시되고 사용자가 닫을 수 있다', async () => {
+    setupMockHandlerCreation();
 
-  setup(<App />);
+    vi.setSystemTime(new Date('2025-10-15 08:45:00'));
 
-  // ! 일정 로딩 완료 후 테스트
-  await screen.findByText('일정 로딩 완료!');
+    const { user } = setup(<App />);
 
-  expect(screen.queryByText('10분 후 기존 회의 일정이 시작됩니다.')).not.toBeInTheDocument();
+    await saveSchedule(user, {
+      title: '팀 미팅',
+      date: '2025-10-15',
+      startTime: '09:00',
+      endTime: '10:00',
+      description: '주간 팀 미팅',
+      location: '회의실 A',
+      category: '업무',
+    });
 
-  act(() => {
-    vi.advanceTimersByTime(1000);
+    const eventList = within(screen.getByTestId('event-list'));
+    expect(eventList.getByText('팀 미팅')).toBeInTheDocument();
+
+    expect(screen.queryByText('10분 후 팀 미팅 일정이 시작됩니다.')).not.toBeInTheDocument();
+
+    act(() => {
+      vi.setSystemTime(new Date('2025-10-15 08:50:00'));
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(screen.getByText('10분 후 팀 미팅 일정이 시작됩니다.')).toBeInTheDocument();
+
+    const closeButton = screen.getByTestId('CloseIcon');
+    await user.click(closeButton);
+
+    expect(screen.queryByText('10분 후 팀 미팅 일정이 시작됩니다.')).not.toBeInTheDocument();
   });
 
-  expect(screen.getByText('10분 후 기존 회의 일정이 시작됩니다.')).toBeInTheDocument();
+  it('알림이 타이틀과 알림 시간과 함께 메시지에 표시되는지 확인한다', async () => {
+    setupMockHandlerCreation();
+
+    vi.setSystemTime(new Date('2025-10-15 13:50:00'));
+
+    const { user } = setup(<App />);
+
+    // 14:00 시작 일정 생성
+    await saveSchedule(user, {
+      title: '프로젝트 리뷰',
+      date: '2025-10-15',
+      startTime: '14:00',
+      endTime: '15:00',
+      description: '월간 프로젝트 검토',
+      location: '대회의실',
+      category: '업무',
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(screen.getByText('10분 후 프로젝트 리뷰 일정이 시작됩니다.')).toBeInTheDocument();
+  });
+
+  it('서로 다른 시간의 여러 일정 알림이 표시되고 개별적으로 제거된다', async () => {
+    setupMockHandlerCreation();
+
+    vi.setSystemTime(new Date('2025-10-15 08:30:00'));
+
+    const { user } = setup(<App />);
+
+    await saveSchedule(user, {
+      title: '아침 회의',
+      date: '2025-10-15',
+      startTime: '09:00',
+      endTime: '09:30',
+      description: '일일 스탠드업',
+      location: '회의실 A',
+      category: '업무',
+    });
+
+    await saveSchedule(user, {
+      title: '기획 회의',
+      date: '2025-10-15',
+      startTime: '10:00',
+      endTime: '11:00',
+      description: '신규 기능 기획',
+      location: '회의실 B',
+      category: '업무',
+    });
+
+    act(() => {
+      vi.setSystemTime(new Date('2025-10-15 08:50:00'));
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(screen.getByText('10분 후 아침 회의 일정이 시작됩니다.')).toBeInTheDocument();
+    expect(screen.queryByText('10분 후 기획 회의 일정이 시작됩니다.')).not.toBeInTheDocument();
+
+    act(() => {
+      vi.setSystemTime(new Date('2025-10-15 09:50:00'));
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(screen.getByText('10분 후 아침 회의 일정이 시작됩니다.')).toBeInTheDocument();
+    expect(screen.getByText('10분 후 기획 회의 일정이 시작됩니다.')).toBeInTheDocument();
+
+    const closeButtons = screen.getAllByTestId('CloseIcon');
+    await user.click(closeButtons[0]);
+
+    expect(screen.queryByText('10분 후 아침 회의 일정이 시작됩니다.')).not.toBeInTheDocument();
+    expect(screen.getByText('10분 후 기획 회의 일정이 시작됩니다.')).toBeInTheDocument();
+  });
 });
