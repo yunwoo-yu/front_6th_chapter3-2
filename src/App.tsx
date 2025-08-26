@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight, Close, Delete, Edit, Notifications } from '@mui/icons-material';
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import {
   Alert,
   AlertTitle,
@@ -29,13 +30,12 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import EventRepeatIcon from '@mui/icons-material/EventRepeat';
+
 import { useCalendarView } from './hooks/useCalendarView.ts';
 import { useEventForm } from './hooks/useEventForm.ts';
 import { useEventOperations } from './hooks/useEventOperations.ts';
 import { useNotifications } from './hooks/useNotifications.ts';
 import { useSearch } from './hooks/useSearch.ts';
-
 import { Event, EventForm } from './types';
 import {
   formatDate,
