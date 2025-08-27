@@ -443,6 +443,7 @@ function App() {
               <FormControl fullWidth>
                 <FormLabel>반복 유형</FormLabel>
                 <Select
+                  id="repeatType"
                   size="small"
                   value={repeatType}
                   onChange={(e) => setRepeatType(e.target.value)}
@@ -504,6 +505,7 @@ function App() {
               <ChevronLeft />
             </IconButton>
             <Select
+              id="viewType"
               size="small"
               aria-label="뷰 타입 선택"
               value={view}
